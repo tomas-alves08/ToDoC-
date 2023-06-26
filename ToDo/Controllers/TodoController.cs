@@ -23,7 +23,7 @@ namespace ToDo.Controllers
             return Ok(_db.Todos.ToList());
         }
 
-        [HttpGet("id", Name = "GetVilla")]
+        [HttpGet("id", Name = "GetTodo")]
         public ActionResult<TodoDTO> GetTodo(int id)
         {
             if(id == 0)
@@ -42,7 +42,7 @@ namespace ToDo.Controllers
         }
 
         [HttpPost]
-        public ActionResult<TodoCreateDTO> CreateTodo([FromBody] TodoDTO todoDTO)
+        public ActionResult<TodoCreateDTO> CreateTodo([FromBody] TodoCreateDTO todoDTO)
         {
             if (todoDTO == null)
             {
@@ -57,17 +57,15 @@ namespace ToDo.Controllers
 
             Todo model = new()
             {
-                Id = todoDTO.Id,
                 Item = todoDTO.Item,
                 Description = todoDTO.Description,
-                DueDate = todoDTO.DueDate,
-                DateComplete = todoDTO.DateComplete,
+                DueDate = todoDTO.DueDate
             };
 
             _db.Todos.Add(model);
             _db.SaveChanges();
 
-            return CreatedAtRoute("CreateTodo", new { id = todoDTO.Id }, todoDTO);
+            return CreatedAtRoute("GetTodo", todoDTO);
         }
 
         [HttpDelete("id")]
@@ -94,10 +92,7 @@ namespace ToDo.Controllers
         [HttpPut("id:int")]
         public IActionResult UpdateTodo(int id, [FromBody]TodoUpdateDTO todoDTO)
         {
-/*
-            var todo = _db.Todos.FirstOrDefault(todo => todo.Id == id);*/
-
-            if(todo == null || id != todoDTO.Id || id == 0)
+            if(todoDTO == null || id != todoDTO.Id || id == 0)
             {
                 return BadRequest();
             }
