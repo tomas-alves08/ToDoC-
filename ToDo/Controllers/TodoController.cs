@@ -91,17 +91,13 @@ namespace ToDo.Controllers
             return NoContent();
         }
 
-        [HttpPut("id")]
-        public IActionResult UpdateTodo(int id, TodoDTO todoDTO)
+        [HttpPut("id:int")]
+        public IActionResult UpdateTodo(int id, [FromBody]TodoUpdateDTO todoDTO)
         {
-            if(id == 0)
-            {
-                return BadRequest();
-            }
+/*
+            var todo = _db.Todos.FirstOrDefault(todo => todo.Id == id);*/
 
-            var todo = _db.Todos.FirstOrDefault(todo => todo.Id == id);
-
-            if(todo == null || id != todoDTO.Id)
+            if(todo == null || id != todoDTO.Id || id == 0)
             {
                 return BadRequest();
             }
@@ -111,8 +107,7 @@ namespace ToDo.Controllers
                 Id = todoDTO.Id,
                 Item = todoDTO.Item,
                 Description = todoDTO.Description,
-                DueDate = todoDTO.DueDate,
-                DateComplete = todoDTO.DateComplete,
+                DueDate = todoDTO.DueDate
             };
 
             _db.Todos.Update(model);
