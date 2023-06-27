@@ -23,7 +23,7 @@ namespace ToDo.Controllers
             return Ok(_db.Todos.ToList());
         }
 
-        [HttpGet("id", Name = "GetTodo")]
+        [HttpGet("id:int", Name = "GetTodo")]
         public ActionResult<TodoDTO> GetTodo(int id)
         {
             if(id == 0)
@@ -68,7 +68,7 @@ namespace ToDo.Controllers
             return CreatedAtRoute("GetTodo", todoDTO);
         }
 
-        [HttpDelete("id")]
+        [HttpDelete("id:int")]
         public IActionResult DeleteTodo(int id)
         {
             if(id == 0)
@@ -102,7 +102,9 @@ namespace ToDo.Controllers
                 Id = todoDTO.Id,
                 Item = todoDTO.Item,
                 Description = todoDTO.Description,
-                DueDate = todoDTO.DueDate
+                DueDate = todoDTO.DueDate,
+                DateComplete = todoDTO.DateComplete.Date,
+                IsCompleted = todoDTO.IsCompleted
             };
 
             _db.Todos.Update(model);

@@ -14,5 +14,6 @@ namespace ToDo.Models
         public DateTime DateComplete { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime UpdateDate { get; set; }
+        public bool IsCompleted { get; set; } = false;
     }
 }
